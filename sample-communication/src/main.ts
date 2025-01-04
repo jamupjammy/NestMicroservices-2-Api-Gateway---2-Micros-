@@ -1,13 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 
 async function bootstrap() {
-  // No HTTP (Only TCP from other Microservices for events and messages)
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
-    { transport: Transport.TCP },
+    {
+      transport: Transport.TCP,
+      options: {
+        host: '0.0.0.0', // Listen on all network interfaces
+        port: 3002, // Specify the port your microservice will listen on
+      },
+    },
   );
-  app.listen();
+
+  await app.listen();
+  // console.log('Microservice is listening on TCP port 3001');
 }
+
 bootstrap();

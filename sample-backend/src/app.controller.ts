@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateUserRequest } from './create-user-request.dto';
 
@@ -12,5 +12,7 @@ export class AppController {
   }
 
   @Post()
-  createUser(@Body() createUserRequest: CreateUserRequest) {}
+  createUser(@Body() createUserRequest: CreateUserRequest) {
+    this.appService.createUser(createUserRequest);
+  }
 }
